@@ -156,7 +156,7 @@ export class AppComponent {
 
   dispositions: Dispositions = new Dispositions();
   mindMap;
-  selectedNodes: string[] = new Array();
+  selectedNodes: number[] = new Array();
 
   ngOnInit() {
     this.mindMap = MindMapMain.show(option, mainMindMap);
@@ -170,7 +170,7 @@ export class AppComponent {
           
 
            if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(nodeid)){
-              this.selectedNodes.push(nodeid);
+              this.selectedNodes.push(+nodeid);
               element.classList.add("jmnodesborder");
            }else if("1"!=nodeid && null!=nodeid) {
             this.selectedNodes.splice( this.selectedNodes.indexOf(nodeid), 1);
@@ -182,15 +182,22 @@ export class AppComponent {
        
   }
 
-  level2:boolean =false;
   nextLevel(){
-    debugger
-    this.level2 =true;
+
+    this.selectedNodes.sort((n1,n2) => n1 - n2);
 
     let level2:any= new Array();
     this.selectedNodes.forEach((element, index) => {
+
+      mainMindMap.data.children.forEach((e, i) =>{
+        debugger
+        if(e.id == element){
+          level2.push(e);
+        }
+      });
+
       console.log(element);
-      level2.push(this.mindMap.getNode(element));
+     
     });
 
     const level2Mind = {
