@@ -166,14 +166,13 @@ export class AppComponent {
       debugger
            const element = event.target || event.srcElement;
            const nodeid = this.mindMap.view.getBindedNodeId(element);
-           console.log(this.eventHandles);
           
 
-           if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(nodeid)){
+           if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(+nodeid)){
               this.selectedNodes.push(+nodeid);
               element.classList.add("jmnodesborder");
            }else if("1"!=nodeid && null!=nodeid) {
-            this.selectedNodes.splice( this.selectedNodes.indexOf(nodeid), 1);
+            this.selectedNodes.splice( this.selectedNodes.indexOf(+nodeid), 1);
             element.classList.remove("jmnodesborder");
            }
     });
@@ -216,6 +215,7 @@ export class AppComponent {
 
     this.resetMindMap();
     this.mindMap._show(level2Mind);
+    this.selectedNodes.length=0;
   }
 
   resetMindMap(){
