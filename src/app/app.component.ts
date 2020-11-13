@@ -133,6 +133,8 @@ const mainMindMap = {
 export class AppComponent {
   title = 'CC 2020';
 
+  level2 = false;
+
   dispositions: Dispositions = new Dispositions();
   mindMap;
   selectedNodes: number[] = new Array();
@@ -145,20 +147,33 @@ export class AppComponent {
            const element = event.target || event.srcElement;
            const nodeid = this.mindMap.view.getBindedNodeId(element);
 
-           if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(+nodeid)){
+           if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(+nodeid)  && !this.level2){
               this.selectedNodes.push(+nodeid);
               element.classList.add("jmnodesborder");
-           }else if("1"!=nodeid && null!=nodeid) {
+           }else if("1"!=nodeid && null!=nodeid && !this.level2) {
+              this.selectedNodes.splice( this.selectedNodes.indexOf(+nodeid), 1);
+              element.classList.remove("jmnodesborder");
+           }
+
+           if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(+nodeid)  && this.level2 && "10"!=nodeid && "30"!=nodeid && "50"!=nodeid && "70"!=nodeid && "80"!=nodeid && "100"!=nodeid){
+            this.selectedNodes.push(+nodeid);
+            element.classList.add("jmnodesborder");
+         }
+           else if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(+nodeid) && this.level2 && "10"!=nodeid && "30"!=nodeid && "50"!=nodeid && "70"!=nodeid && "80"!=nodeid && "100"!=nodeid){
             this.selectedNodes.splice( this.selectedNodes.indexOf(+nodeid), 1);
             element.classList.remove("jmnodesborder");
-           }
+          }
     });
     
     this.mindMap.setTheme("primary");
        
   }
 
-  nextLevel(){
+  
+
+  
+  nextLevel1(){
+    this.level2 = true;
 
     this.selectedNodes.sort((n1,n2) => n1 - n2);
 
@@ -307,124 +322,118 @@ export class AppComponent {
               direction: 'right',
               backgroundColor: '#a3cc5a'
             });
-        }
-
-        if(e.id == 70 ){
-          e.children.push({
-            id: 71,
-            color: '#fff',
-            topic: 'Software Quality, Verification & Validation',
-            direction: 'right',
-            backgroundColor: '#beb66d'
-          },
-          {
-            id: 72,
-            color: '#fff',
-            topic: 'Software Process',
-            direction: 'right',
-            backgroundColor: '#beb66d'
-          },
-          {
-            id: 73,
-            color: '#fff',
-            topic: 'Software Modeling & Analysis',
-            direction: 'right',
-            backgroundColor: '#beb66d'
-          },
-          {
-            id: 74,
-            color: '#fff',
-            topic: 'Software Design',
-            direction: 'right',
-            backgroundColor: '#beb66d'
-          },
-          {
-            id: 75,
-            color: '#fff',
-            topic: 'Platform-Based Development',
-            direction: 'right',
-            backgroundColor: '#beb66d'
           }
-        );
-      }
-
-        if(e.id == 80 ){
-          e.children.push({
-            id: 81,
-            color: '#fff',
-            topic: 'Graphics & Visualization',
-            direction: 'right',
-            backgroundColor: '#9bd1a2'
-          },
-          {
-            id: 82,
-            color: '#fff',
-            topic: 'Operation System',
-            direction: 'right',
-            backgroundColor: '#9bd1a2'
-          },
-          {
-            id: 83,
-            color: '#fff',
-            topic: 'Data Structure, Alogorithms & Complexity',
-            direction: 'right',
-            backgroundColor: '#9bd1a2'
-          },
-          {
-            id: 84,
-            color: '#fff',
-            topic: 'Programming Languages',
-            direction: 'right',
-            backgroundColor: '#9bd1a2'
-          },
-          {
-            id: 85,
-            color: '#fff',
-            topic: 'Programming Fundamentals',
-            direction: 'right',
-            backgroundColor: '#9bd1a2'
-          },
-          {
-            id: 86,
-            color: '#fff',
-            topic: 'Computer Systems Fundamentals',
-            direction: 'right',
-            backgroundColor: '#9bd1a2'
+          if(e.id == 70 ){
+            e.children.push({
+              id: 71,
+              color: '#fff',
+              topic: 'Software Quality, Verification & Validation',
+              direction: 'right',
+              backgroundColor: '#beb66d'
+            },
+            {
+              id: 72,
+              color: '#fff',
+              topic: 'Software Process',
+              direction: 'right',
+              backgroundColor: '#beb66d'
+            },
+            {
+              id: 73,
+              color: '#fff',
+              topic: 'Software Modeling & Analysis',
+              direction: 'right',
+              backgroundColor: '#beb66d'
+            },
+            {
+              id: 74,
+              color: '#fff',
+              topic: 'Software Design',
+              direction: 'right',
+              backgroundColor: '#beb66d'
+            },
+            {
+              id: 75,
+              color: '#fff',
+              topic: 'Platform-Based Development',
+              direction: 'right',
+              backgroundColor: '#beb66d'
+            });
           }
-        );
-      }
-
-      if(e.id == 100 ){
-        e.children.push({
-          id: 101,
-          color: '#fff',
-          topic: 'Architecture & Organization',
-          direction: 'right',
-          backgroundColor: '#e5957b'
-        },
-        {
-          id: 102,
-          color: '#fff',
-          topic: 'Digital Design',
-          direction: 'right',
-          backgroundColor: '#e5957b'
-        },
-        {
-          id: 103,
-          color: '#fff',
-          topic: 'Circuit & Electronics',
-          direction: 'right',
-          backgroundColor: '#e5957b'
-        },
-        {
-          id: 104,
-          color: '#fff',
-          topic: 'Signal Processing',
-          direction: 'right',
-          backgroundColor: '#e5957b'
-        }
-      );
-    }
+          if(e.id == 80 ){
+            e.children.push({
+              id: 81,
+              color: '#fff',
+              topic: 'Graphics & Visualization',
+              direction: 'right',
+              backgroundColor: '#9bd1a2'
+            },
+            {
+              id: 82,
+              color: '#fff',
+              topic: 'Operation System',
+              direction: 'right',
+              backgroundColor: '#9bd1a2'
+            },
+            {
+              id: 83,
+              color: '#fff',
+              topic: 'Data Structure, Alogorithms & Complexity',
+              direction: 'right',
+              backgroundColor: '#9bd1a2'
+            },
+            {
+              id: 84,
+              color: '#fff',
+              topic: 'Programming Languages',
+              direction: 'right',
+              backgroundColor: '#9bd1a2'
+            },
+            {
+              id: 85,
+              color: '#fff',
+              topic: 'Programming Fundamentals',
+              direction: 'right',
+              backgroundColor: '#9bd1a2'
+            },
+            {
+              id: 86,
+              color: '#fff',
+              topic: 'Computer Systems Fundamentals',
+              direction: 'right',
+              backgroundColor: '#9bd1a2'
+            });
+          }
+          if(e.id == 100 ){
+            e.children.push({
+              id: 101,
+              color: '#fff',
+              topic: 'Architecture & Organization',
+              direction: 'right',
+              backgroundColor: '#e5957b'
+            },
+            {
+              id: 102,
+              color: '#fff',
+              topic: 'Digital Design',
+              direction: 'right',
+              backgroundColor: '#e5957b'
+            },
+            {
+              id: 103,
+              color: '#fff',
+              topic: 'Circuit & Electronics',
+              direction: 'right',
+              backgroundColor: '#e5957b'
+            },
+            {
+              id: 104,
+              color: '#fff',
+              topic: 'Signal Processing',
+              direction: 'right',
+              backgroundColor: '#e5957b'
+            });
+          }
 
           level2.push(e);
         }
@@ -454,6 +463,13 @@ export class AppComponent {
     this.selectedNodes.length=0;
   }
 
+
+  nextLevel2(){
+    this.selectedNodes.sort((n1,n2) => n1 - n2);
+    
+    console.log(this.selectedNodes);
+  }
+
   resetMindMap(){
     this.mindMap.view.reset();
     this.mindMap.data.reset();
@@ -466,11 +482,11 @@ export class AppComponent {
     }else{
       this.prompt_info('nothing');
     }
-}
+  }
 
-prompt_info(msg){
-  alert(msg);
-}
+  prompt_info(msg){
+    alert(msg);
+  }
 
 
   removeNode() {
