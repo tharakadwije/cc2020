@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { customizeUtil, MindMapMain } from 'mind-map';
 import { Dispositions } from './model/dipositions';
+import { FormControl } from '@angular/forms';
 
 const HIERARCHY_RULES = {
   ROOT: {
@@ -135,9 +136,34 @@ export class AppComponent {
 
   level2 = false;
 
+  val1: number=50;
+  value3: number;
+  score=  40;
+
+  name = new FormControl('');
+
   dispositions: Dispositions = new Dispositions();
   mindMap;
   selectedNodes: number[] = new Array();
+
+
+  data: any;
+
+  constructor() {
+    this.data = {
+      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+      datasets: [
+          {
+              label: 'First Dataset',
+              data: [65, 59, 80, 81, 56, 55, 40]
+          },
+          {
+              label: 'Second Dataset',
+              data: [28, 48, 40, 19, 86, 27, 90]
+          }
+      ]
+  }
+}
 
   ngOnInit() {
     this.mindMap = MindMapMain.show(option, mainMindMap);
@@ -159,7 +185,7 @@ export class AppComponent {
             this.selectedNodes.push(+nodeid);
             element.classList.add("jmnodesborder");
          }
-           else if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(+nodeid) && this.level2 && "10"!=nodeid && "30"!=nodeid && "50"!=nodeid && "70"!=nodeid && "80"!=nodeid && "100"!=nodeid){
+           else if("1"!=nodeid && null!=nodeid && this.level2 && "10"!=nodeid && "30"!=nodeid && "50"!=nodeid && "70"!=nodeid && "80"!=nodeid && "100"!=nodeid){
             this.selectedNodes.splice( this.selectedNodes.indexOf(+nodeid), 1);
             element.classList.remove("jmnodesborder");
           }
