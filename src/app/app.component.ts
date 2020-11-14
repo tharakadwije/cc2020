@@ -30,35 +30,6 @@ const option = {
   enableDraggable: false,
 };
 
-let usersAndOrg = {
-  id: 10,
-  color: '#fff',
-  topic: 'Users and Organizations',
-  direction: 'right',
-  backgroundColor: '#9ff4f7',
-  canHandleClick:true,
-  children: []
-}
-
-let usersAndOrg1_1 = {
-  id: 11,
-  color: '#fff',
-  topic: 'Social Issues and Professional Practice',
-  direction: 'right',
-  backgroundColor: '#9ff4f7',
-  canHandleClick:true,
-  children: []
-}
-
-let securityPolicy1_2 = {
-  id: 12,
-  color: '#fff',
-  topic: 'Security Policy and Management',
-  direction: 'right',
-  backgroundColor: '#9ff4f7',
-  canHandleClick:true,
-  children: []
-}
 
 const mainMindMap = {
   format: 'nodeTree',
@@ -113,7 +84,7 @@ const mainMindMap = {
         children: []
       },
       {
-        id: 100,
+        id: 90,
         color: '#fff',
         topic: 'Hardware',
         direction: 'right',
@@ -146,24 +117,9 @@ export class AppComponent {
   mindMap;
   selectedNodes: number[] = new Array();
 
-
-  data: any;
-
   constructor() {
-    this.data = {
-      labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-      datasets: [
-          {
-              label: 'First Dataset',
-              data: [65, 59, 80, 81, 56, 55, 40]
-          },
-          {
-              label: 'Second Dataset',
-              data: [28, 48, 40, 19, 86, 27, 90]
-          }
-      ]
+ 
   }
-}
 
   ngOnInit() {
     this.mindMap = MindMapMain.show(option, mainMindMap);
@@ -430,7 +386,7 @@ export class AppComponent {
               backgroundColor: '#9bd1a2'
             });
           }
-          if(e.id == 100 ){
+          if(e.id == 90 ){
             e.children.push({
               id: 101,
               color: '#fff',
@@ -439,21 +395,21 @@ export class AppComponent {
               backgroundColor: '#e5957b'
             },
             {
-              id: 102,
+              id: 92,
               color: '#fff',
               topic: 'Digital Design',
               direction: 'right',
               backgroundColor: '#e5957b'
             },
             {
-              id: 103,
+              id: 93,
               color: '#fff',
               topic: 'Circuit & Electronics',
               direction: 'right',
               backgroundColor: '#e5957b'
             },
             {
-              id: 104,
+              id: 94,
               color: '#fff',
               topic: 'Signal Processing',
               direction: 'right',
@@ -494,6 +450,60 @@ export class AppComponent {
     this.selectedNodes.sort((n1,n2) => n1 - n2);
     
     console.log(this.selectedNodes);
+
+    this.selectedNodes.sort((n1,n2) => n1 - n2);
+
+    let level2:any= new Array();
+    let addedItems="";
+    this.selectedNodes.forEach((element, index) => {
+
+      mainMindMap.data.children.forEach((e, i) =>{
+        debugger
+         let id = ""+e.id;
+         let first_letter = ""+element;
+        
+        if(id.startsWith(first_letter.charAt(0))){ 
+          if(!addedItems.includes(id)){
+              level2.push(e);
+              addedItems = addedItems.concat(id);
+          }
+        }
+
+      });
+    });
+
+    this.selectedNodes.forEach((element, index) => {
+
+      level2.forEach((e, i) =>{
+        e.children.forEach(ele => {
+          
+          if(!this.selectedNodes.includes(ele.id)){
+            e.children.splice(e.children.indexOf(ele), 1);
+          }
+        });
+      });
+
+    });
+
+    const level2Mind = {
+      format: 'nodeTree',
+      data: {
+        id: 1,
+        topic: 'Computing',
+        selectedType: false,
+        canHandleClick:true,
+        backgroundColor: '#d3d3d3',
+
+        children: level2
+        
+      }
+    };
+
+    debugger
+    this.resetMindMap();
+    this.mindMap._show(level2Mind);
+    this.selectedNodes.length=0;
+
   }
 
   resetMindMap(){
