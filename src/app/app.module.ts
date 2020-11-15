@@ -7,6 +7,9 @@ import { HelloworldComponent } from './helloworld/helloworld.component';
 import {ChartModule} from 'primeng/chart';
 import { FormsModule } from '@angular/forms';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {SliderModule} from 'primeng/slider';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -16,6 +19,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     BrowserModule,
     AppRoutingModule,
     ChartModule,
+    SliderModule,
     FormsModule,
     BrowserAnimationsModule
   ],

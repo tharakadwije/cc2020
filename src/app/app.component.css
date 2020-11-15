@@ -8,3 +8,24 @@
   border: 2px solid black;
   padding: 10px;
 }
+
+.next-mind-map {
+
+}
+
+body{
+  background-image: linear-gradient(to right, #2f2323 , #8e8e83);
+}
+
+.circle-high:before {
+  content: ' \25CF';
+  font-size: 50px;
+}
+
+.circle-low:before {
+  content: ' \25CF';
+  font-size: 50px;
+}
+ /* color: #224a23; 
+   color: #95b196;
+ */

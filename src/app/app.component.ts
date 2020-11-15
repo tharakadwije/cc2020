@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { customizeUtil, MindMapMain } from 'mind-map';
 import { Dispositions } from './model/dipositions';
 import { FormControl } from '@angular/forms';
+import { OnInit, Renderer2 } from '@angular/core';
+
 
 const HIERARCHY_RULES = {
   ROOT: {
@@ -23,8 +25,8 @@ const option = {
   theme: 'normal',
   editable: false,
   selectable: false,
-  canHandleClick:true,
-  eventType:'click',
+  canHandleClick: true,
+  eventType: 'click',
   depth: 4,
   hierarchyRule: HIERARCHY_RULES,
   enableDraggable: false,
@@ -37,9 +39,9 @@ const mainMindMap = {
     id: 1,
     topic: 'Computing',
     selectedType: false,
-    canHandleClick:true,
+    canHandleClick: true,
     backgroundColor: '#d3d3d3',
-   
+
     children: [
       {
         id: 10,
@@ -47,9 +49,9 @@ const mainMindMap = {
         topic: 'Users & Organizations',
         direction: 'right',
         backgroundColor: '#9ff4f7',
-        canHandleClick:true,
+        canHandleClick: true,
         children: [],
-        show:false,
+        show: false,
       },
       {
         id: 30,
@@ -106,74 +108,82 @@ export class AppComponent {
   title = 'CC 2020';
 
   level2 = false;
+  level3 = false;
+  level3NodeId;
 
-  val1: number=50;
-  value3: number;
-  score=  40;
-
-  name = new FormControl('');
+  val: number = 10;
 
   dispositions: Dispositions = new Dispositions();
   mindMap;
   selectedNodes: number[] = new Array();
 
-  constructor() {
- 
+  constructor(private renderer: Renderer2) {
+
   }
 
   ngOnInit() {
     this.mindMap = MindMapMain.show(option, mainMindMap);
-    
-    this.mindMap.view.addEvent(this, 'click',function (event) {
 
-           const element = event.target || event.srcElement;
-           const nodeid = this.mindMap.view.getBindedNodeId(element);
+    this.mindMap.view.addEvent(this, 'click', function (event) {
 
-           if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(+nodeid)  && !this.level2){
-              this.selectedNodes.push(+nodeid);
-              element.classList.add("jmnodesborder");
-           }else if("1"!=nodeid && null!=nodeid && !this.level2) {
-              this.selectedNodes.splice( this.selectedNodes.indexOf(+nodeid), 1);
-              element.classList.remove("jmnodesborder");
-           }
+      if (!this.level3) {
+        const element = event.target || event.srcElement;
+        const nodeid = this.mindMap.view.getBindedNodeId(element);
 
-           if("1"!=nodeid && null!=nodeid && !this.selectedNodes.includes(+nodeid)  && this.level2 && "10"!=nodeid && "30"!=nodeid && "50"!=nodeid && "70"!=nodeid && "80"!=nodeid && "100"!=nodeid){
-            this.selectedNodes.push(+nodeid);
-            element.classList.add("jmnodesborder");
-         }
-           else if("1"!=nodeid && null!=nodeid && this.level2 && "10"!=nodeid && "30"!=nodeid && "50"!=nodeid && "70"!=nodeid && "80"!=nodeid && "100"!=nodeid){
-            this.selectedNodes.splice( this.selectedNodes.indexOf(+nodeid), 1);
-            element.classList.remove("jmnodesborder");
-          }
+        if ("1" != nodeid && null != nodeid && !this.selectedNodes.includes(+nodeid) && !this.level2) {
+          this.selectedNodes.push(+nodeid);
+          element.classList.add("jmnodesborder");
+        } else if ("1" != nodeid && null != nodeid && !this.level2) {
+          this.selectedNodes.splice(this.selectedNodes.indexOf(+nodeid), 1);
+          element.classList.remove("jmnodesborder");
+        }
+
+        if ("1" != nodeid && null != nodeid && !this.selectedNodes.includes(+nodeid) && this.level2 && "10" != nodeid && "30" != nodeid && "50" != nodeid && "70" != nodeid && "80" != nodeid && "90" != nodeid) {
+          this.selectedNodes.push(+nodeid);
+          element.classList.add("jmnodesborder");
+        }
+        else if ("1" != nodeid && null != nodeid && this.level2 && "10" != nodeid && "30" != nodeid && "50" != nodeid && "70" != nodeid && "80" != nodeid && "90" != nodeid) {
+          this.selectedNodes.splice(this.selectedNodes.indexOf(+nodeid), 1);
+          element.classList.remove("jmnodesborder");
+        }
+      } else if (this.level3) {
+
+        console.log(this.selectedNodes);
+
+        const element = event.target || event.srcElement;
+        this.level3NodeId = this.mindMap.view.getBindedNodeId(element);
+
+        console.log(this.level3NodeId);
+      }
     });
-    
+
     this.mindMap.setTheme("primary");
-       
+
   }
 
-  
 
-  
-  nextLevel1(){
+
+
+  nextLevel1() {
     this.level2 = true;
 
-    this.selectedNodes.sort((n1,n2) => n1 - n2);
+    this.selectedNodes.sort((n1, n2) => n1 - n2);
 
-    let level2:any= new Array();
+    let level2: any = new Array();
     this.selectedNodes.forEach((element, index) => {
 
-      mainMindMap.data.children.forEach((e, i) =>{
+      mainMindMap.data.children.forEach((e, i) => {
         debugger
-        if(e.id == element){
+        if (e.id == element) {
 
-          if(e.id == 10 ){
-              e.children.push({
-                id: 11,
-                color: '#fff',
-                topic: 'Social Issues & Professional Practice',
-                direction: 'right',
-                backgroundColor: '#9ff4f7'
-              },
+          if (e.id == 10) {
+            e.children.push({
+              id: 11,
+              color: '#fff',
+              topic: 'Social Issues & Professional Practice',
+              direction: 'right',
+              backgroundColor: '#9ff4f7'
+            },
               {
                 id: 12,
                 color: '#fff',
@@ -210,14 +220,14 @@ export class AppComponent {
                 backgroundColor: '#9ff4f7'
               });
           }
-          if(e.id ==  30 ){
-              e.children.push({
-                id: 31,
-                color: '#fff',
-                topic: 'Security Issues & Principles',
-                direction: 'right',
-                backgroundColor: '#fde5c6'
-              },
+          if (e.id == 30) {
+            e.children.push({
+              id: 31,
+              color: '#fff',
+              topic: 'Security Issues & Principles',
+              direction: 'right',
+              backgroundColor: '#fde5c6'
+            },
               {
                 id: 32,
                 color: '#fff',
@@ -240,7 +250,7 @@ export class AppComponent {
                 backgroundColor: '#fde5c6'
               });
           }
-          if(e.id == 50 ){
+          if (e.id == 50) {
             e.children.push({
               id: 51,
               color: '#fff',
@@ -248,64 +258,64 @@ export class AppComponent {
               direction: 'right',
               backgroundColor: '#a3cc5a'
             },
-            {
-              id: 52,
-              color: '#fff',
-              topic: 'Intelligent System(AI)',
-              direction: 'right',
-              backgroundColor: '#a3cc5a'
-            },
-            {
-              id: 53,
-              color: '#fff',
-              topic: 'Internet of Things',
-              direction: 'right',
-              backgroundColor: '#a3cc5a'
-            },
-            {
-              id: 54,
-              color: '#fff',
-              topic: 'Parallel & Distributed Computing',
-              direction: 'right',
-              backgroundColor: '#a3cc5a'
-            },
-            {
-              id: 55,
-              color: '#fff',
-              topic: 'Computer Network',
-              direction: 'right',
-              backgroundColor: '#a3cc5a'
-            },
-            {
-              id: 56,
-              color: '#fff',
-              topic: 'Embedded System',
-              direction: 'right',
-              backgroundColor: '#a3cc5a'
-            },
-            {
-              id: 57,
-              color: '#fff',
-              topic: 'Integrated System Technology',
-              direction: 'right',
-              backgroundColor: '#a3cc5a'
-            },
-            {
-              id: 58,
-              color: '#fff',
-              topic: 'Platform Technology',
-              direction: 'right',
-              backgroundColor: '#a3cc5a'
-            },
-            {
-              id: 59,
-              color: '#fff',
-              topic: 'Security Technology & Implementation',
-              direction: 'right',
-              backgroundColor: '#a3cc5a'
-            });
+              {
+                id: 52,
+                color: '#fff',
+                topic: 'Intelligent System(AI)',
+                direction: 'right',
+                backgroundColor: '#a3cc5a'
+              },
+              {
+                id: 53,
+                color: '#fff',
+                topic: 'Internet of Things',
+                direction: 'right',
+                backgroundColor: '#a3cc5a'
+              },
+              {
+                id: 54,
+                color: '#fff',
+                topic: 'Parallel & Distributed Computing',
+                direction: 'right',
+                backgroundColor: '#a3cc5a'
+              },
+              {
+                id: 55,
+                color: '#fff',
+                topic: 'Computer Network',
+                direction: 'right',
+                backgroundColor: '#a3cc5a'
+              },
+              {
+                id: 56,
+                color: '#fff',
+                topic: 'Embedded System',
+                direction: 'right',
+                backgroundColor: '#a3cc5a'
+              },
+              {
+                id: 57,
+                color: '#fff',
+                topic: 'Integrated System Technology',
+                direction: 'right',
+                backgroundColor: '#a3cc5a'
+              },
+              {
+                id: 58,
+                color: '#fff',
+                topic: 'Platform Technology',
+                direction: 'right',
+                backgroundColor: '#a3cc5a'
+              },
+              {
+                id: 59,
+                color: '#fff',
+                topic: 'Security Technology & Implementation',
+                direction: 'right',
+                backgroundColor: '#a3cc5a'
+              });
           }
-          if(e.id == 70 ){
+          if (e.id == 70) {
             e.children.push({
               id: 71,
               color: '#fff',
@@ -313,36 +323,36 @@ export class AppComponent {
               direction: 'right',
               backgroundColor: '#beb66d'
             },
-            {
-              id: 72,
-              color: '#fff',
-              topic: 'Software Process',
-              direction: 'right',
-              backgroundColor: '#beb66d'
-            },
-            {
-              id: 73,
-              color: '#fff',
-              topic: 'Software Modeling & Analysis',
-              direction: 'right',
-              backgroundColor: '#beb66d'
-            },
-            {
-              id: 74,
-              color: '#fff',
-              topic: 'Software Design',
-              direction: 'right',
-              backgroundColor: '#beb66d'
-            },
-            {
-              id: 75,
-              color: '#fff',
-              topic: 'Platform-Based Development',
-              direction: 'right',
-              backgroundColor: '#beb66d'
-            });
+              {
+                id: 72,
+                color: '#fff',
+                topic: 'Software Process',
+                direction: 'right',
+                backgroundColor: '#beb66d'
+              },
+              {
+                id: 73,
+                color: '#fff',
+                topic: 'Software Modeling & Analysis',
+                direction: 'right',
+                backgroundColor: '#beb66d'
+              },
+              {
+                id: 74,
+                color: '#fff',
+                topic: 'Software Design',
+                direction: 'right',
+                backgroundColor: '#beb66d'
+              },
+              {
+                id: 75,
+                color: '#fff',
+                topic: 'Platform-Based Development',
+                direction: 'right',
+                backgroundColor: '#beb66d'
+              });
           }
-          if(e.id == 80 ){
+          if (e.id == 80) {
             e.children.push({
               id: 81,
               color: '#fff',
@@ -350,43 +360,43 @@ export class AppComponent {
               direction: 'right',
               backgroundColor: '#9bd1a2'
             },
-            {
-              id: 82,
-              color: '#fff',
-              topic: 'Operation System',
-              direction: 'right',
-              backgroundColor: '#9bd1a2'
-            },
-            {
-              id: 83,
-              color: '#fff',
-              topic: 'Data Structure, Alogorithms & Complexity',
-              direction: 'right',
-              backgroundColor: '#9bd1a2'
-            },
-            {
-              id: 84,
-              color: '#fff',
-              topic: 'Programming Languages',
-              direction: 'right',
-              backgroundColor: '#9bd1a2'
-            },
-            {
-              id: 85,
-              color: '#fff',
-              topic: 'Programming Fundamentals',
-              direction: 'right',
-              backgroundColor: '#9bd1a2'
-            },
-            {
-              id: 86,
-              color: '#fff',
-              topic: 'Computer Systems Fundamentals',
-              direction: 'right',
-              backgroundColor: '#9bd1a2'
-            });
+              {
+                id: 82,
+                color: '#fff',
+                topic: 'Operation System',
+                direction: 'right',
+                backgroundColor: '#9bd1a2'
+              },
+              {
+                id: 83,
+                color: '#fff',
+                topic: 'Data Structure, Alogorithms & Complexity',
+                direction: 'right',
+                backgroundColor: '#9bd1a2'
+              },
+              {
+                id: 84,
+                color: '#fff',
+                topic: 'Programming Languages',
+                direction: 'right',
+                backgroundColor: '#9bd1a2'
+              },
+              {
+                id: 85,
+                color: '#fff',
+                topic: 'Programming Fundamentals',
+                direction: 'right',
+                backgroundColor: '#9bd1a2'
+              },
+              {
+                id: 86,
+                color: '#fff',
+                topic: 'Computer Systems Fundamentals',
+                direction: 'right',
+                backgroundColor: '#9bd1a2'
+              });
           }
-          if(e.id == 90 ){
+          if (e.id == 90) {
             e.children.push({
               id: 101,
               color: '#fff',
@@ -394,27 +404,27 @@ export class AppComponent {
               direction: 'right',
               backgroundColor: '#e5957b'
             },
-            {
-              id: 92,
-              color: '#fff',
-              topic: 'Digital Design',
-              direction: 'right',
-              backgroundColor: '#e5957b'
-            },
-            {
-              id: 93,
-              color: '#fff',
-              topic: 'Circuit & Electronics',
-              direction: 'right',
-              backgroundColor: '#e5957b'
-            },
-            {
-              id: 94,
-              color: '#fff',
-              topic: 'Signal Processing',
-              direction: 'right',
-              backgroundColor: '#e5957b'
-            });
+              {
+                id: 92,
+                color: '#fff',
+                topic: 'Digital Design',
+                direction: 'right',
+                backgroundColor: '#e5957b'
+              },
+              {
+                id: 93,
+                color: '#fff',
+                topic: 'Circuit & Electronics',
+                direction: 'right',
+                backgroundColor: '#e5957b'
+              },
+              {
+                id: 94,
+                color: '#fff',
+                topic: 'Signal Processing',
+                direction: 'right',
+                backgroundColor: '#e5957b'
+              });
           }
 
           level2.push(e);
@@ -422,7 +432,7 @@ export class AppComponent {
       });
 
       console.log(element);
-     
+
     });
 
     const level2Mind = {
@@ -431,41 +441,40 @@ export class AppComponent {
         id: 1,
         topic: 'Computing',
         selectedType: false,
-        canHandleClick:true,
+        canHandleClick: true,
         backgroundColor: '#d3d3d3',
 
         children: level2
-        
+
       }
     };
 
     debugger
     this.resetMindMap();
     this.mindMap._show(level2Mind);
-    this.selectedNodes.length=0;
+    this.selectedNodes.length = 0;
   }
 
+  nextLevel2() {
+    this.selectedNodes.sort((n1, n2) => n1 - n2);
 
-  nextLevel2(){
-    this.selectedNodes.sort((n1,n2) => n1 - n2);
-    
     console.log(this.selectedNodes);
 
-    this.selectedNodes.sort((n1,n2) => n1 - n2);
+    this.selectedNodes.sort((n1, n2) => n1 - n2);
 
-    let level2:any= new Array();
-    let addedItems="";
+    let level2: any = new Array();
+    let addedItems = "";
     this.selectedNodes.forEach((element, index) => {
 
-      mainMindMap.data.children.forEach((e, i) =>{
+      mainMindMap.data.children.forEach((e, i) => {
         debugger
-         let id = ""+e.id;
-         let first_letter = ""+element;
-        
-        if(id.startsWith(first_letter.charAt(0))){ 
-          if(!addedItems.includes(id)){
-              level2.push(e);
-              addedItems = addedItems.concat(id);
+        let id = "" + e.id;
+        let first_letter = "" + element;
+
+        if (id.startsWith(first_letter.charAt(0))) {
+          if (!addedItems.includes(id)) {
+            level2.push(e);
+            addedItems = addedItems.concat(id);
           }
         }
 
@@ -474,10 +483,10 @@ export class AppComponent {
 
     this.selectedNodes.forEach((element, index) => {
 
-      level2.forEach((e, i) =>{
+      level2.forEach((e, i) => {
         e.children.forEach(ele => {
-          
-          if(!this.selectedNodes.includes(ele.id)){
+
+          if (!this.selectedNodes.includes(ele.id)) {
             e.children.splice(e.children.indexOf(ele), 1);
           }
         });
@@ -491,36 +500,58 @@ export class AppComponent {
         id: 1,
         topic: 'Computing',
         selectedType: false,
-        canHandleClick:true,
+        canHandleClick: true,
         backgroundColor: '#d3d3d3',
 
         children: level2
-        
+
       }
     };
 
     debugger
     this.resetMindMap();
     this.mindMap._show(level2Mind);
-    this.selectedNodes.length=0;
+    //this.selectedNodes.length=0;
 
+    this.level3 = true;
   }
 
-  resetMindMap(){
+  resetMindMap() {
     this.mindMap.view.reset();
     this.mindMap.data.reset();
   }
-  
-  show_selected(){
+
+  handleChange(e) {
+    //e.value is the new value
+    console.log(e.value);
+
+    const parent: HTMLElement = document.getElementById('high-' + this.level3NodeId);
+    // const child = parent.children[0];
+
+    if (e.value == 5) {
+      this.renderer.setStyle(parent, 'color', '#003000');
+    } if (e.value == 4) {
+      this.renderer.setStyle(parent, 'color', '#09850c');
+    } if (e.value == 3) {
+      this.renderer.setStyle(parent, 'color', '#139116');
+    } if (e.value == 2) {
+      this.renderer.setStyle(parent, 'color', '#3aab3d');
+    } if (e.value == 1) {
+      this.renderer.setStyle(parent, 'color', '#3b3737');
+    }
+
+  }
+
+  show_selected() {
     var selected_node = this.mindMap.getSelectedNode();
-    if(!!selected_node){
-        this.prompt_info(selected_node.topic);
-    }else{
+    if (!!selected_node) {
+      this.prompt_info(selected_node.topic);
+    } else {
       this.prompt_info('nothing');
     }
   }
 
-  prompt_info(msg){
+  prompt_info(msg) {
     alert(msg);
   }
 

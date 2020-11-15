@@ -9,6 +9,7 @@ export class HelloworldComponent implements OnInit {
   
   data: any;
 
+
   constructor() {
     this.data = {
       labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
