@@ -406,14 +406,14 @@
   <div>
     <button (click)="nextLevel1()">Next level 01</button>
     <button (click)="nextLevel2()">Next level 02</button>
-
+    <button (click)="generateRadar()">Generate Radar</button>
   </div>
 
   <div>
-    <p-slider class="next-mind-map" (onChange)="handleChange($event)"  orientation="vertical" [min]="1" [max]="5" animate="true"></p-slider>
+    <p-slider class="next-mind-map" (onChange)="handleChange($event)" orientation="vertical" [min]="0" [max]="5" animate="true"></p-slider>
 
     <div *ngIf="level3">
-    
+
       <div *ngFor="let a of selectedNodes; let index = index">
         <span class="circle-high" id="{{ 'high-' + a }}"></span>
         <span class="circle-low" id="{{ 'low-' + a }}"></span>
@@ -468,4 +468,6 @@
 
 </div>
 
-<router-outlet></router-outlet>
+<div *ngIf="isGenerateRadar">
+  <p-chart type="radar" [data]="data"></p-chart>
+</div>

@@ -109,6 +109,7 @@ export class AppComponent {
 
   level2 = false;
   level3 = false;
+  isGenerateRadar = false;
   level3NodeId;
 
   val: number = 10;
@@ -117,7 +118,10 @@ export class AppComponent {
   mindMap;
   selectedNodes: number[] = new Array();
 
+  data: any;
   constructor(private renderer: Renderer2) {
+
+    
 
   }
 
@@ -148,12 +152,9 @@ export class AppComponent {
         }
       } else if (this.level3) {
 
-        console.log(this.selectedNodes);
-
         const element = event.target || event.srcElement;
         this.level3NodeId = this.mindMap.view.getBindedNodeId(element);
 
-        console.log(this.level3NodeId);
       }
     });
 
@@ -458,8 +459,6 @@ export class AppComponent {
   nextLevel2() {
     this.selectedNodes.sort((n1, n2) => n1 - n2);
 
-    console.log(this.selectedNodes);
-
     this.selectedNodes.sort((n1, n2) => n1 - n2);
 
     let level2: any = new Array();
@@ -516,17 +515,56 @@ export class AppComponent {
     this.level3 = true;
   }
 
+  generateRadar(){
+
+    this.isGenerateRadar = true;
+    
+    this.data = {
+      labels: ['Hardware', 'Software Fundamentals', 'Software Development', 'System Architecture & Infrastructure', 'Systems Modling', 'Users & Organizations'],
+      datasets: [
+          {
+              label: 'User curriculum',
+              backgroundColor: 'rgba(159,244,247,0.3)',
+              borderColor: 'rgba(159,244,247,1)',
+              pointBackgroundColor: 'rgba(179,181,198,1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgba(179,181,198,1)',
+              data: [3.5, 3, 3.5, 4, 0, 0]
+          },
+          {
+              label: 'First dataset',
+              backgroundColor: 'rgba(253,229,198,0.3)',
+              borderColor: 'rgba(253,229,198,1)',
+              pointBackgroundColor: 'rgba(179,181,198,1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgba(179,181,198,1)',
+              data: [5, 0, 1, 5, 5, 4]
+          },
+          {
+              label: 'Second dataset',
+              backgroundColor: 'rgba(255,99,132,0.3)',
+              borderColor: 'rgba(255,99,132,1)',
+              pointBackgroundColor: 'rgba(255,99,132,1)',
+              pointBorderColor: '#fff',
+              pointHoverBackgroundColor: '#fff',
+              pointHoverBorderColor: 'rgba(255,99,132,1)',
+              data: [4, 0, 1, 3, 2, 1]
+          }
+      ]
+  };
+
+  }
+
   resetMindMap() {
     this.mindMap.view.reset();
     this.mindMap.data.reset();
   }
 
   handleChange(e) {
-    //e.value is the new value
-    console.log(e.value);
 
     const parent: HTMLElement = document.getElementById('high-' + this.level3NodeId);
-    // const child = parent.children[0];
 
     if (e.value == 5) {
       this.renderer.setStyle(parent, 'color', '#003000');
@@ -537,7 +575,9 @@ export class AppComponent {
     } if (e.value == 2) {
       this.renderer.setStyle(parent, 'color', '#3aab3d');
     } if (e.value == 1) {
-      this.renderer.setStyle(parent, 'color', '#3b3737');
+      this.renderer.setStyle(parent, 'color', '#3afd3d');
+    }if (e.value == 0) {
+      this.renderer.setStyle(parent, 'color', '#98d938');
     }
 
   }

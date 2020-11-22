@@ -1,44 +1,54 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-helloworld',
-  templateUrl: './helloworld.component.html',
-  styleUrls: ['./helloworld.component.css']
+    selector: 'app-helloworld',
+    templateUrl: './helloworld.component.html',
+    styleUrls: ['./helloworld.component.css']
 })
 export class HelloworldComponent implements OnInit {
-  
-  data: any;
+
+    data: any;
 
 
-  constructor() {
-    this.data = {
-      labels: ['Eating', 'Drinking', 'Sleeping', 'Designing', 'Coding', 'Cycling', 'Running'],
-      datasets: [
-          {
-              label: 'My First dataset',
-              backgroundColor: 'rgba(179,181,198,0.2)',
-              borderColor: 'rgba(179,181,198,1)',
-              pointBackgroundColor: 'rgba(179,181,198,1)',
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(179,181,198,1)',
-              data: [65, 59, 90, 81, 56, 55, 40]
-          },
-          {
-              label: 'My Second dataset',
-              backgroundColor: 'rgba(255,99,132,0.2)',
-              borderColor: 'rgba(255,99,132,1)',
-              pointBackgroundColor: 'rgba(255,99,132,1)',
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(255,99,132,1)',
-              data: [28, 48, 40, 19, 96, 27, 100]
-          }
-      ]
-  };
-  }
+    constructor() {
+        this.data = {
+            labels: ['Hardware', 'Software Fundamentals', 'Software Development', 'System Architecture & Infrastructure', 'Systems Modling', 'Users & Organizations'],
+            datasets: [
+                {
+                    label: 'User curriculum',
+                    backgroundColor: 'rgba(159,244,247,0.3)',
+                    borderColor: 'rgba(159,244,247,1)',
+                    pointBackgroundColor: 'rgba(179,181,198,1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(179,181,198,1)',
+                    data: [3.5, 3, 3.5, 4, 0, 0]
+                },
+                {
+                    label: 'My First dataset',
+                    backgroundColor: 'rgba(253,229,198,0.3)',
+                    borderColor: 'rgba(253,229,198,1)',
+                    pointBackgroundColor: 'rgba(179,181,198,1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(179,181,198,1)',
+                    data: [5, 0, 1, 5, 5, 4]
+                },
+                {
+                    label: 'My Second dataset',
+                    backgroundColor: 'rgba(255,99,132,0.3)',
+                    borderColor: 'rgba(255,99,132,1)',
+                    pointBackgroundColor: 'rgba(255,99,132,1)',
+                    pointBorderColor: '#fff',
+                    pointHoverBackgroundColor: '#fff',
+                    pointHoverBorderColor: 'rgba(255,99,132,1)',
+                    data: [4, 0, 1, 3, 2, 1]
+                }
+            ]
+        };
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }
