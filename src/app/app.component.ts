@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { customizeUtil, MindMapMain } from 'mind-map';
 import { Dispositions } from './model/dipositions';
 import { FormControl } from '@angular/forms';
@@ -40,7 +40,7 @@ const mainMindMap = {
     topic: 'Computing',
     selectedType: false,
     canHandleClick: true,
-    backgroundColor: '#d3d3d3',
+    backgroundColor: '#eee',
 
     children: [
       {
@@ -48,7 +48,7 @@ const mainMindMap = {
         color: '#fff',
         topic: 'Users & Organizations',
         direction: 'right',
-        backgroundColor: '#9ff4f7',
+        backgroundColor: '#f94144',
         canHandleClick: true,
         children: [],
         show: false,
@@ -58,7 +58,7 @@ const mainMindMap = {
         color: '#fff',
         topic: 'Systems Modling',
         direction: 'right',
-        backgroundColor: '#fde5c6',
+        backgroundColor: '#f3722c',
         children: []
       },
       {
@@ -66,7 +66,7 @@ const mainMindMap = {
         color: '#fff',
         topic: 'System Architecture & Infrastructure',
         direction: 'right',
-        backgroundColor: '#a3cc5a',
+        backgroundColor: '#f8961e',
         children: []
       },
       {
@@ -74,7 +74,7 @@ const mainMindMap = {
         color: '#fff',
         topic: 'Software Development',
         direction: 'right',
-        backgroundColor: '#beb66d',
+        backgroundColor: '#f9c74f',
         children: []
       },
       {
@@ -82,7 +82,7 @@ const mainMindMap = {
         color: '#fff',
         topic: 'Software Fundamentals',
         direction: 'right',
-        backgroundColor: '#9bd1a2',
+        backgroundColor: '#90be6d',
         children: []
       },
       {
@@ -90,7 +90,7 @@ const mainMindMap = {
         color: '#fff',
         topic: 'Hardware',
         direction: 'right',
-        backgroundColor: '#e5957b',
+        backgroundColor: '#43aa8b',
         children: []
       }
     ]
@@ -104,12 +104,13 @@ const mainMindMap = {
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit {
   title = 'CC 2020';
 
   level2 = false;
   level3 = false;
   isGenerateRadar = false;
+  mindMapView = true;
   level3NodeId;
 
   val: number = 10;
@@ -121,11 +122,10 @@ export class AppComponent {
   data: any;
   constructor(private renderer: Renderer2) {
 
-    
+
 
   }
-
-  ngOnInit() {
+  ngAfterViewInit(): void {
     this.mindMap = MindMapMain.show(option, mainMindMap);
 
     this.mindMap.view.addEvent(this, 'click', function (event) {
@@ -154,11 +154,16 @@ export class AppComponent {
 
         const element = event.target || event.srcElement;
         this.level3NodeId = this.mindMap.view.getBindedNodeId(element);
+        console.log(this.level3NodeId);
 
       }
     });
 
     this.mindMap.setTheme("primary");
+  }
+
+  ngOnInit() {
+
 
   }
 
@@ -174,7 +179,7 @@ export class AppComponent {
     this.selectedNodes.forEach((element, index) => {
 
       mainMindMap.data.children.forEach((e, i) => {
-        debugger
+        // debugger
         if (e.id == element) {
 
           if (e.id == 10) {
@@ -183,42 +188,42 @@ export class AppComponent {
               color: '#fff',
               topic: 'Social Issues & Professional Practice',
               direction: 'right',
-              backgroundColor: '#9ff4f7'
+              backgroundColor: '#f94144'
             },
               {
                 id: 12,
                 color: '#fff',
                 topic: 'Security Policy & Management',
                 direction: 'right',
-                backgroundColor: '#9ff4f7'
+                backgroundColor: '#f94144'
               },
               {
                 id: 13,
                 color: '#fff',
                 topic: 'IS Management & Leadership',
                 direction: 'right',
-                backgroundColor: '#9ff4f7'
+                backgroundColor: '#f94144'
               },
               {
                 id: 14,
                 color: '#fff',
                 topic: 'Enterprise Architecture',
                 direction: 'right',
-                backgroundColor: '#9ff4f7'
+                backgroundColor: '#f94144'
               },
               {
                 id: 15,
                 color: '#fff',
                 topic: 'Project Management',
                 direction: 'right',
-                backgroundColor: '#9ff4f7'
+                backgroundColor: '#f94144'
               },
               {
                 id: 16,
                 color: '#fff',
                 topic: 'User Experience Design',
                 direction: 'right',
-                backgroundColor: '#9ff4f7'
+                backgroundColor: '#f94144'
               });
           }
           if (e.id == 30) {
@@ -450,7 +455,7 @@ export class AppComponent {
       }
     };
 
-    debugger
+    // debugger
     this.resetMindMap();
     this.mindMap._show(level2Mind);
     this.selectedNodes.length = 0;
@@ -466,7 +471,7 @@ export class AppComponent {
     this.selectedNodes.forEach((element, index) => {
 
       mainMindMap.data.children.forEach((e, i) => {
-        debugger
+        // debugger
         let id = "" + e.id;
         let first_letter = "" + element;
 
@@ -507,7 +512,7 @@ export class AppComponent {
       }
     };
 
-    debugger
+    // debugger
     this.resetMindMap();
     this.mindMap._show(level2Mind);
     //this.selectedNodes.length=0;
@@ -515,45 +520,46 @@ export class AppComponent {
     this.level3 = true;
   }
 
-  generateRadar(){
+  generateRadar() {
 
     this.isGenerateRadar = true;
-    
+    this.mindMapView = false;
+
     this.data = {
       labels: ['Hardware', 'Software Fundamentals', 'Software Development', 'System Architecture & Infrastructure', 'Systems Modling', 'Users & Organizations'],
       datasets: [
-          {
-              label: 'User curriculum',
-              backgroundColor: 'rgba(159,244,247,0.3)',
-              borderColor: 'rgba(159,244,247,1)',
-              pointBackgroundColor: 'rgba(179,181,198,1)',
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(179,181,198,1)',
-              data: [3.5, 3, 3.5, 4, 0, 0]
-          },
-          {
-              label: 'First dataset',
-              backgroundColor: 'rgba(253,229,198,0.3)',
-              borderColor: 'rgba(253,229,198,1)',
-              pointBackgroundColor: 'rgba(179,181,198,1)',
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(179,181,198,1)',
-              data: [5, 0, 1, 5, 5, 4]
-          },
-          {
-              label: 'Second dataset',
-              backgroundColor: 'rgba(255,99,132,0.3)',
-              borderColor: 'rgba(255,99,132,1)',
-              pointBackgroundColor: 'rgba(255,99,132,1)',
-              pointBorderColor: '#fff',
-              pointHoverBackgroundColor: '#fff',
-              pointHoverBorderColor: 'rgba(255,99,132,1)',
-              data: [4, 0, 1, 3, 2, 1]
-          }
+        {
+          label: 'User curriculum',
+          backgroundColor: 'rgba(159,244,247,0.3)',
+          borderColor: 'rgba(159,244,247,1)',
+          pointBackgroundColor: 'rgba(179,181,198,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(179,181,198,1)',
+          data: [3.5, 3, 3.5, 4, 0, 0]
+        },
+        {
+          label: 'First dataset',
+          backgroundColor: 'rgba(253,229,198,0.3)',
+          borderColor: 'rgba(253,229,198,1)',
+          pointBackgroundColor: 'rgba(179,181,198,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(179,181,198,1)',
+          data: [5, 0, 1, 5, 5, 4]
+        },
+        {
+          label: 'Second dataset',
+          backgroundColor: 'rgba(255,99,132,0.3)',
+          borderColor: 'rgba(255,99,132,1)',
+          pointBackgroundColor: 'rgba(255,99,132,1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(255,99,132,1)',
+          data: [4, 0, 1, 3, 2, 1]
+        }
       ]
-  };
+    };
 
   }
 
@@ -576,7 +582,7 @@ export class AppComponent {
       this.renderer.setStyle(parent, 'color', '#3aab3d');
     } if (e.value == 1) {
       this.renderer.setStyle(parent, 'color', '#3afd3d');
-    }if (e.value == 0) {
+    } if (e.value == 0) {
       this.renderer.setStyle(parent, 'color', '#98d938');
     }
 
