@@ -113,6 +113,10 @@ export class AppComponent implements AfterViewInit {
   mindMapView = true;
   level3NodeId;
 
+  showSlider = false;
+  showSliderTop = 0;
+  showSliderLeft = 0;
+
   val: number = 10;
 
   dispositions: Dispositions = new Dispositions();
@@ -155,6 +159,15 @@ export class AppComponent implements AfterViewInit {
         const element = event.target || event.srcElement;
         this.level3NodeId = this.mindMap.view.getBindedNodeId(element);
         console.log(this.level3NodeId);
+        console.log(event.clientX, event.clientY);
+        if (this.level3NodeId) {
+          this.showSlider = true;
+          this.showSliderLeft = event.clientX - 20;
+          this.showSliderTop = event.clientY - 10;
+        }
+        else {
+          this.showSlider = false;
+        }
 
       }
     });

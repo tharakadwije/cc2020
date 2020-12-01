@@ -99,7 +99,7 @@ jmexpander:hover {
   }
 }
 
-.jmnodesborder, .selected {
+.jmnodesborder {
   &:before {
     content: "\e909 ";
     font-family: primeicons;

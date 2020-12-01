@@ -7,8 +7,7 @@
 
     <br /><br />
     <div *ngIf="level3">
-      <p-slider class="next-mind-map" (onChange)="handleChange($event)" orientation="vertical" [min]="0" [max]="5"
-        animate="true"></p-slider>
+
 
       <div *ngIf="level3">
 
@@ -54,6 +53,15 @@
       </div>
 
     </div>
+  </div>
+</div>
+
+<div id="slider" *ngIf="showSlider" [style.top.px]="showSliderTop" [style.left.px]="showSliderLeft">
+  <div class="slider-inner">
+    <a class="close" (click)="showSlider = false">
+      <i class="pi pi-times"></i>
+    </a>
+    <p-slider class="next-mind-map" (onChange)="handleChange($event)" [min]="0" [max]="5" animate="true"></p-slider>
   </div>
 </div>
 
